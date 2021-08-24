@@ -78,17 +78,20 @@ int uart_isrxready(void){
 }
 
 int uart_readline(char* buffer, int max_len) {
-	int i = 0;
+	static int i = 0;
+	if (i >= max_len)
+		i = 0;
 	while (uart_isrxready()) {
-		buffer[i] = uart_readc();
-		if (buffer[i] == '\n' || i >= max_len) {
-			break;
+		char c = uart_readc();
+		buffer[i++] = c;
+		if ((c == '\n') || (i >= (max_len - 1))) {
+			buffer[i++] = '\0';
+			int temp = i;
+			i = 0;
+			return temp;
 		}
-		i++;
 	}
-
-	buffer[i] = '\0';
-	return i;
+	return 0;
 }
 
 // Override __sys_write so we actually can do printf
