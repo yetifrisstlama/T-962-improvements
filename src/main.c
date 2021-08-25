@@ -178,18 +178,19 @@ static int32_t Main_Work(void) {
 
 	uint32_t keyspressed = Keypad_Get();
 
-	char serial_cmd[255] = "";
 	char* cmd_select_profile = "select profile %d";
 	char* cmd_bake = "bake %d %d";
 	char* cmd_dump_profile = "dump profile %d";
 	char* cmd_setting = "setting %d %f";
 
 	if (uart_isrxready()) {
-		int len = uart_readline(serial_cmd, 255);
+		int len = uart_readline();
 
 		if (len > 0) {
 			int param, param1;
 			float paramF;
+
+			// printf("len = %d, \"%s\"\n", len, serial_cmd);
 
 			if (strcmp(serial_cmd, "about") == 0) {
 				printf(format_about, Version_GetGitVersion());

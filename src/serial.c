@@ -24,6 +24,8 @@
 #include "circbuffer.h"
 #include "serial.h"
 
+char serial_cmd[255] = "";
+
 #ifdef __NEWLIB__
 #define __sys_write _write
 #endif
@@ -77,18 +79,18 @@ int uart_isrxready(void){
 	return circ_buf_has_char(&rxbuf);
 }
 
-int uart_readline(char* buffer, int max_len) {
+int uart_readline() {
 	static int i = 0;
-	if (i >= max_len)
-		i = 0;
 	while (uart_isrxready()) {
 		char c = uart_readc();
-		buffer[i++] = c;
-		if ((c == '\n') || (i >= (max_len - 1))) {
-			buffer[i++] = '\0';
-			int temp = i;
+		if ((c == '\n') || (c == '\r') || (i >= (sizeof(serial_cmd) - 1))) {
+			serial_cmd[i] = '\0';
+			int ret = i;
 			i = 0;
-			return temp;
+			return ret;
+		} else {
+			serial_cmd[i] = c;
+			i++;
 		}
 	}
 	return 0;

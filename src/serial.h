@@ -9,6 +9,10 @@ char uart_readc(void);
 //non-blocking check
 int uart_isrxready(void);
 
-int uart_readline(char* buffer, int max_len);
+int uart_readline();
+
+// Filled by uart_readline
+char serial_cmd[255];
+
 
 #endif /* SERIAL_H_ */
