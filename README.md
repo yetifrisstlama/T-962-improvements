@@ -6,6 +6,12 @@ Custom firmware for the cheap T-962 reflow oven utilizing the _existing_ control
  - [Hackaday post]
  - We have [Travis-CI] in place to build pull requests
 
+# FORK
+  * make 63SN/34PB profile slightly hotter (225 degC peak)
+  * make uart_readline() only return complete lines, makes the serial terminal compatible with manual keyboard input
+  * shorten the git describe string (would crash on boot if too long)
+  * stay in bake mode and keep counting down once started, even if the temperature undershoots
+
 ### Introduction
 
 As we had use for a small reflow oven for a small prototype run we settled for the `T-962` even after having seen the negative reviews of it as there were plenty of suggestions all across the Internet on how it could be improved including replacing the existing controller and display(!). After having had a closer look at the hardware (replacing the masking tape inside with Kapton tape first) it was obvious that there was a simple way to improve the software disaster that is the T-962.
