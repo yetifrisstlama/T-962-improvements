@@ -32,7 +32,7 @@
 #include "reflow.h"
 
 // Standby temperature in degrees Celsius
-#define STANDBYTEMP (50)
+#define STANDBYTEMP (80)
 
 // 250ms between each run
 #define PID_TIMEBASE (250)
@@ -102,7 +102,7 @@ static int32_t Reflow_Work(void) {
 		}
 
 		// start increasing ticks after setpoint is reached...
-		if (avgtemp < intsetpoint && bake_timer > 0) {
+		if (avgtemp < intsetpoint && bake_timer > 0 && numticks == 0) {
 			modestr = "BAKE-PREHEAT";
 		} else {
 			numticks++;

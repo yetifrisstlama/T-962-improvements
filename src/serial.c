@@ -83,7 +83,7 @@ int uart_readline() {
 	static int i = 0;
 	while (uart_isrxready()) {
 		char c = uart_readc();
-		if ((c == '\n') || (c == '\r') || (i >= (sizeof(serial_cmd) - 1))) {
+		if (c == '\n' || c == '\r' || i >= (sizeof(serial_cmd) - 1)) {
 			serial_cmd[i] = '\0';
 			int ret = i;
 			i = 0;
